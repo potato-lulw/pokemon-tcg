@@ -6,15 +6,16 @@
 
 @layer utilities {
   .text-primary {
-    @apply text-gray-150
+    @apply text-gray-150 
   }
   .text-secondary {
     @apply text-teal-550
   }
   .bg-primary {
-    @apply bg-navy-950
+    @apply bg-navy-950 bg-opacity-80
   }
   .bg-secondary {
-    @apply bg-teal-750
+    @apply bg-teal-750 bg-opacity-80
   }
 }
+
