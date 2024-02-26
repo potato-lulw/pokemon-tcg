@@ -12,12 +12,12 @@ const P2Board = () => {
     const [clickedCardId, setClickedCardId] = useState(null);
 
     const cardExitAnimation = {
-        x:  200, // Move the card  200 pixels to the right
+        x: 200, // Move the card  200 pixels to the right
         y: -100, // Optionally, move the card  100 pixels up
-        opacity:  0, // Fade out the card
-        rotate:  10, // Rotate the card by  10 degrees
-        transition: { duration:  0.5, ease: "easeOut" },
-      };
+        opacity: 0, // Fade out the card
+        rotate: 10, // Rotate the card by  10 degrees
+        transition: { duration: 0.5, ease: "easeOut" },
+    };
 
     console.log(oppBenchCards);
     const handleBenchCardClick = (_id, ind) => {
@@ -73,75 +73,29 @@ const P2Board = () => {
                 {/* Opponent's Bench Cards */}
                 <div className="mb-4">
                     {/* <h2 className="text-xl font-semibold mb-2 text-center">Opponent's Bench</h2> */}
-                    <div className="test flex space-x-4 " >
-
-
-                        <motion.div
-                            className="oppBench relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1"
-                            onClick={() => handleBenchCardClick(oppBenchCards[0], 0)}
-                            whileHover={{ scale: 1.5 }}
-                            animate={oppBenchCards[0] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}
-                        >
-                            {oppBenchCards.length > 0 && (
-                                <motion.div
-                                    initial={{ x: "500%", y: "50%" }}
-                                    animate={{ x: "0", y: '0' }}
-                                    transition={{ type: "spring", duration: 0.5 }}>
-                                    {oppBenchCards.length > 0 && <Card _id={oppBenchCards[0]} />}
-                                </motion.div>
-                            )}
-
-                        </motion.div>
-                        <motion.div 
-                            className="oppBench relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(oppBenchCards[1], 1)} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={oppBenchCards[1] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {oppBenchCards.length > 1 && (
-                                <motion.div initial={{ x: "400%", y: "50%" }} animate={{ x: "0", y: '0' }} transition={{ type: "spring", duration: 0.5 }}>
-                                    {oppBenchCards.length > 1 && <Card _id={oppBenchCards[1]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                        <motion.div 
-                            className="oppBench relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(oppBenchCards[2], 2)} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={oppBenchCards[2] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {oppBenchCards.length > 2 && (
-                                <motion.div initial={{ x: "300%", y: "50%" }} animate={{ x: "0", y: '0' }} transition={{ type: "spring", duration: 0.5 }}>
-                                    {oppBenchCards.length > 2 && <Card _id={oppBenchCards[2]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                        <motion.div 
-                            className="oppBench relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(oppBenchCards[3], 3)} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={oppBenchCards[3] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}> 
-                            {oppBenchCards.length > 3 && (
-                                <motion.div initial={{ x: "200%", y: "50%" }} animate={{ x: "0", y: '0' }} transition={{ type: "spring", duration: 0.5 }}>
-                                    {oppBenchCards.length > 3 && <Card _id={oppBenchCards[3]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                        <motion.div 
-                            className="oppBench relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(oppBenchCards[4], 4)} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={oppBenchCards[4] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {oppBenchCards.length > 4 && (
-                                <motion.div initial={{ x: "100%", y: "50%" }} animate={{ x: "0", y: '0' }} transition={{ type: "spring", duration: 0.5 }}>
-                                    {oppBenchCards.length > 4 && <Card _id={oppBenchCards[4]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
+                    <div className="test flex space-x-4">
+                        {[0, 1, 2, 3, 4].map((index) => (
+                            <motion.div
+                                key={index}
+                                className="oppBench relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1"
+                                onClick={() => handleBenchCardClick(oppBenchCards[index], index)}
+                                whileHover={{ scale: 1.5 }}
+                                animate={oppBenchCards[index] === clickedCardId ? cardExitAnimation : {}}
+                                onAnimationComplete={() => setClickedCardId(null)}
+                            >
+                                {oppBenchCards.length > index && (
+                                    <motion.div
+                                        initial={{ x: `${(5 - index) * 100}%`, y: "50%" }}
+                                        animate={{ x: "0", y: '0' }}
+                                        transition={{ type: "spring", duration: 0.5 }}
+                                    >
+                                        {oppBenchCards.length > index && <Card _id={oppBenchCards[index]} />}
+                                    </motion.div>
+                                )}
+                            </motion.div>
+                        ))}
                     </div>
+
                 </div>
 
                 {/* Opponent's Active Card */}
@@ -161,7 +115,7 @@ const P2Board = () => {
                 </div>
                 {/* Pile */}
                 <div>
-                    <div className="bg-red-500 w-16 h-24 flex items-center justify-center rounded-md cursor-pointer"  onClick={handleOppCardsPileClick}>
+                    <div className="bg-red-500 w-16 h-24 flex items-center justify-center rounded-md cursor-pointer" onClick={handleOppCardsPileClick}>
                         <span className="text-white text-sm">Cards</span>
                     </div>
                 </div>

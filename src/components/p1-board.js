@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion,  } from 'framer-motion';
+import { motion, } from 'framer-motion';
 import Card from './card';
 import { useBenchCards } from '../contexts/BenchCardContext';
 import useRandomPokemonCard from '../hooks/useRandomPokemon';
@@ -14,12 +14,12 @@ const P1Board = () => {
     const [clickedCardId, setClickedCardId] = useState(null);
 
     const cardExitAnimation = {
-        x:  200, // Move the card  200 pixels to the right
+        x: 200, // Move the card  200 pixels to the right
         y: -100, // Optionally, move the card  100 pixels up
-        opacity:  0, // Fade out the card
-        rotate:  10, // Rotate the card by  10 degrees
-        transition: { duration:  0.5, ease: "easeOut" },
-      };
+        opacity: 0, // Fade out the card
+        rotate: 10, // Rotate the card by  10 degrees
+        transition: { duration: 0.5, ease: "easeOut" },
+    };
 
     console.log(benchCards)
     const handleBenchCardClick = (_id) => {
@@ -39,7 +39,7 @@ const P1Board = () => {
                 setBenchCards(updatedBenchCards);
                 setDiscardPile([...discardPile, _id]);
             }
-        },300);
+        }, 300);
     };
 
     const handleCardsPileClick = () => {
@@ -73,72 +73,29 @@ const P1Board = () => {
                 {/* Bench Cards */}
                 <div className="mb-4">
 
-                    <div className="flex space-x-4 ">
-
-
-                        <motion.div 
-                            className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(benchCards[0])} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={benchCards[0] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {benchCards.length > 0 && (
-                                <motion.div initial={{x:"500%", y: "-50%"}} animate={{ x: "0", y:'0'}} transition={{ type: "spring", duration:0.5}}>
-                                    {benchCards.length > 0 && <Card _id={benchCards[0]} />}
-                                </motion.div>
-                            )}
-
-                        </motion.div>
-                        <motion.div 
-                            className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(benchCards[1])} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={benchCards[1] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {benchCards.length > 1 && (
-                                <motion.div initial={{x:"400%", y: "-50%"}} animate={{ x: "0", y:'0'}} transition={{ type: "spring", duration:0.5}}>
-                                    {benchCards.length > 1 && <Card _id={benchCards[1]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                        <motion.div 
-                            className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(benchCards[2])} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={benchCards[2] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {benchCards.length > 2 && (
-                                <motion.div initial={{x:"300%", y: "-50%"}} animate={{ x: "0", y:'0'}} transition={{ type: "spring", duration:0.5}}>
-                                    {benchCards.length > 2 && <Card _id={benchCards[2]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                        <motion.div 
-                            className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(benchCards[3])} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={benchCards[3] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {benchCards.length > 3 && (
-                                <motion.div initial={{x:"200%", y: "-50%"}} animate={{ x: "0", y:'0'}} transition={{ type: "spring", duration:0.5}}>
-                                    {benchCards.length > 3 && <Card _id={benchCards[3]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                        <motion.div 
-                            className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1" 
-                            onClick={() => handleBenchCardClick(benchCards[4])} 
-                            whileHover={{ scale: 1.5 }} 
-                            animate={benchCards[4] === clickedCardId ? cardExitAnimation : {}}
-                            onAnimationComplete={() => setClickedCardId(null)}>
-                            {benchCards.length > 4 && (
-                                <motion.div initial={{x:"100%", y: "-50%"}} animate={{ x: "0", y:'0'}} transition={{ type: "spring", duration:0.5}}>
-                                    {benchCards.length > 4 && <Card _id={benchCards[4]} />}
-                                </motion.div>
-                            )}
-                        </motion.div>
-
+                    <div className="flex space-x-4">
+                        {[0, 1, 2, 3, 4].map((index) => (
+                            <motion.div
+                                key={index}
+                                className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1"
+                                onClick={() => handleBenchCardClick(benchCards[index])}
+                                whileHover={{ scale: 1.5 }}
+                                whileTap={{ scale: 1.4 }}
+                            >
+                                {benchCards.length > index && (
+                                    <motion.div
+                                        initial={{ x: `${(5 - index) * 100}%`, y: "-50%" }}
+                                        transition={{ type: "spring", duration: 0.5 }}
+                                        animate={benchCards[index] === clickedCardId ? cardExitAnimation : { x: 0, y: 0 }}
+                                        onAnimationComplete={() => setClickedCardId(null)}
+                                    >
+                                        {benchCards.length > index && <Card _id={benchCards[index]} />}
+                                    </motion.div>
+                                )}
+                            </motion.div>
+                        ))}
                     </div>
+
                 </div>
 
             </div>
