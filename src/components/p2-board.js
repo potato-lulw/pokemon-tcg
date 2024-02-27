@@ -88,7 +88,7 @@ const P2Board = () => {
                                         initial={{ x: `${(5 - index) * 100}%`, y: "50%" }}
                                         
                                         transition={{ type: "spring", duration: 0.5 }}
-                                        animate={oppBenchCards[index] === clickedCardId ? cardExitAnimation : { x: "0", y: '0' }}
+                                        animate={index === oppBenchCards.indexOf(clickedCardId)? cardExitAnimation : { x: "0", y: '0' }}
                                 onAnimationComplete={() => setClickedCardId(null)}
                                     >
                                         {oppBenchCards.length > index && <Card _id={oppBenchCards[index]} />}

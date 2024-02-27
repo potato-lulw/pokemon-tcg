@@ -15,7 +15,7 @@ const useRandomPokemonCard = () => {
             .then(card => {
                 if(player === 'p1'){
 
-                    setBenchCards(prevBenchCards => [...prevBenchCards, card.id]);
+                    // setBenchCards(prevBenchCards => [...prevBenchCards, card.id]);
                     addCardToHand(card.id);
                 }
                 else{

@@ -3,6 +3,7 @@ import { motion, } from 'framer-motion';
 import Card from './card';
 import { useBenchCards } from '../contexts/BenchCardContext';
 import useRandomPokemonCard from '../hooks/useRandomPokemon';
+import { useP1HandCardContext } from '../contexts/P1HandCardContext';
 
 
 const P1Board = () => {
@@ -12,6 +13,8 @@ const P1Board = () => {
     const { benchCards, setBenchCards } = useBenchCards();
     const [discardPile, setDiscardPile] = useState([]);
     const [clickedCardId, setClickedCardId] = useState(null);
+    const { p1HandCards} = useP1HandCardContext();
+    
 
     const cardExitAnimation = {
         x: 200, // Move the card  200 pixels to the right
@@ -43,7 +46,7 @@ const P1Board = () => {
     };
 
     const handleCardsPileClick = () => {
-        if (benchCards.length < 5) {
+        if (p1HandCards.length < 50) {
             fetchRandomPokemonCard('p1');
         }
     };
@@ -84,9 +87,9 @@ const P1Board = () => {
                             >
                                 {benchCards.length > index && (
                                     <motion.div
-                                        initial={{ x: `${(5 - index) * 100}%`, y: "-50%" }}
+                                        initial={{ x: `${(5 - index) * 100}%`, y: "50%" }}
                                         transition={{ type: "spring", duration: 0.5 }}
-                                        animate={benchCards[index] === clickedCardId ? cardExitAnimation : { x: 0, y: 0 }}
+                                        animate={index === benchCards.indexOf(clickedCardId) ? cardExitAnimation : { x: 0, y: 0 }}
                                         onAnimationComplete={() => setClickedCardId(null)}
                                     >
                                         {benchCards.length > index && <Card _id={benchCards[index]} />}
