@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import pokemon from 'pokemontcgsdk';
 
+
 const Card = ({ _id }) => {
   const [cardUrl, setCardUrl] = useState('');
   const [cardName, setCardName] = useState('');
@@ -21,8 +22,9 @@ const Card = ({ _id }) => {
     }
   }, [_id])
   return (
-    <div className="w-20 h-32 flex items-center justify-center rounded-sm   border-dashed bg-[url('/src/images/backside.png')] bg-contain bg-no-repeat ">
-      {cardUrl && <img src={cardUrl} alt={cardName} className='w-20 h-32'/>}
+    <div className="w-[4.5rem] h-24 flex items-center justify-center rounded-sm   border-dashed bg-[url('/src/images/backside.png')] bg-contain bg-no-repeat ">
+      
+      {cardUrl && <img src={cardUrl} alt={cardName} className='w-[4.5] h-24' />}
       
 
     </div>

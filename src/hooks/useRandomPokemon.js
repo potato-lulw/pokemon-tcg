@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import pokemon from 'pokemontcgsdk';
 import { useBenchCards } from '../contexts/BenchCardContext';
 import { useOppBenchCards } from '../contexts/OpponentCardContext';
+import { useP1HandCardContext } from '../contexts/P1HandCardContext';
 
 const useRandomPokemonCard = () => {
     const { setBenchCards} = useBenchCards();
     const { setOppBenchCards} = useOppBenchCards();
+    const { p1HandCards, addCardToHand, removeCardFromHand, clearHand } = useP1HandCardContext();
 
     const fetchRandomPokemonCard = (player) => {
         pokemon.card
@@ -14,6 +16,7 @@ const useRandomPokemonCard = () => {
                 if(player === 'p1'){
 
                     setBenchCards(prevBenchCards => [...prevBenchCards, card.id]);
+                    addCardToHand(card.id);
                 }
                 else{
                     setOppBenchCards(prevBenchCards => [...prevBenchCards, card.id]);

@@ -55,31 +55,31 @@ const P1Board = () => {
                     {[1, 2, 3, 4, 5, 6].map((index) => (
                         <div
                             key={index}
-                            className="bg-blue-500 w-12 h-20 flex items-center justify-center rounded-md"
+                            className="bg-blue-500 w-8 h-12 flex items-center justify-center rounded-md"
                         >
-                            <span className="text-white text-sm">Prize {index}</span>
+                            <span className="text-white text-sm">{index}</span>
                         </div>
                     ))}
                 </div>
             </div>
-            <div className="bg-primary  p-4 rounded-lg shadow-md min-w-[400px] min-h-[300px]">
+            <div className="bg-primary  p-4 rounded-lg shadow-md min-w-[400px] min-h-[200px]">
 
 
                 {/* Active Card */}
-                <div className="mb-4 flex justify-center">
+                <div className="mb-2 flex justify-center">
                     <Card />
                 </div>
 
                 {/* Bench Cards */}
-                <div className="mb-4">
+                <div className="">
 
                     <div className="flex space-x-4">
                         {[0, 1, 2, 3, 4].map((index) => (
                             <motion.div
                                 key={index}
-                                className="relative border-2 border-white/50 px-1 border-dashed rounded-sm min-w-20 min-h-32 p-1"
+                                className="relative border-2 border-white/50  border-dashed rounded-sm min-w-20 min-h-[6.5rem] p-1"
                                 onClick={() => handleBenchCardClick(benchCards[index])}
-                                whileHover={{ scale: 1.5 }}
+                                whileHover={{ scale: 1.2 }}
                                 whileTap={{ scale: 1.4 }}
                             >
                                 {benchCards.length > index && (
@@ -102,14 +102,14 @@ const P1Board = () => {
             <div className=' flex flex-col space-y-4 bg-primary p-2 rounded-md'>
                 {/* Pile */}
                 <div
-                    className="bg-blue-500 w-16 h-24 flex items-center justify-center rounded-md cursor-pointer"
+                    className="bg-blue-500 w-12 h-16 flex items-center justify-center rounded-md cursor-pointer"
                     onClick={handleCardsPileClick}
                 >
                     <span className="text-white text-sm">Cards</span>
                 </div>
                 {/* discard pile */}
                 <div>
-                    <div className="bg-blue-500 w-16 h-24 flex items-center justify-center rounded-md cursor-pointer">
+                    <div className="bg-blue-500 w-12 h-16 flex items-center justify-center rounded-md cursor-pointer">
                         <span className="text-white text-sm">Discard</span>
                     </div>
                 </div>
