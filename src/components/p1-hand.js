@@ -25,10 +25,11 @@ const P1Hand = () => {
   const endIndex = Math.min(startIndex + cardsPerPage, totalCards);
   const visibleCards = p1HandCards.slice(startIndex, endIndex);
 
-  const handleHandCardClick = (_id, ind) => {
-    removeCardFromHand(_id);
+  const handleHandCardClick = (_id, visibleIndex) => {
+    const globalIndex = visibleIndex + currentPage * cardsPerPage;
+    removeCardFromHand(globalIndex);
     setTimeout(() => {
-        setBenchCards([...benchCards, _id]);
+      setBenchCards([...benchCards, _id]);
     },  300);
   }
 

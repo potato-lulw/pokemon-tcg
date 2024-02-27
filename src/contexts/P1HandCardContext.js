@@ -9,11 +9,9 @@ export const P1HandCardProvider = ({ children }) => {
     setP1HandCards((prevCards) => [...prevCards, card]);
   };
 
-  const removeCardFromHand = (index) => {
+  const removeCardFromHand = (globalIndex) => {
     setP1HandCards((prevCards) => {
-      const updatedCards = [...prevCards];
-      updatedCards.splice(index, 1);
-      return updatedCards;
+      return prevCards.filter((card, index) => index !== globalIndex);
     });
   };
 
