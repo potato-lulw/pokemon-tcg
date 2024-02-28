@@ -19,7 +19,7 @@ const P2Board = () => {
         transition: { duration: 0.5, ease: "easeOut" },
     };
 
-    console.log(oppBenchCards);
+    
     const handleBenchCardClick = (_id, ind) => {
 
         // setIsAnimating(true);

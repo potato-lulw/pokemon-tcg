@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { motion, } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Card from './card';
 import { useBenchCards } from '../contexts/BenchCardContext';
 import useRandomPokemonCard from '../hooks/useRandomPokemon';
 import { useP1HandCardContext } from '../contexts/P1HandCardContext';
+import { useP1ActiveCardContext } from '../contexts/P1ActiveCardContext';
 
 
 const P1Board = () => {
@@ -13,37 +14,46 @@ const P1Board = () => {
     const { benchCards, setBenchCards } = useBenchCards();
     const [discardPile, setDiscardPile] = useState([]);
     const [clickedCardId, setClickedCardId] = useState(null);
-    const { p1HandCards} = useP1HandCardContext();
-    
+    const { p1HandCards } = useP1HandCardContext();
+    const { p1ActiveCard, setPlayCard, removeActiveCard } = useP1ActiveCardContext();
+
 
     const cardExitAnimation = {
-        x: 200, // Move the card  200 pixels to the right
-        y: -100, // Optionally, move the card  100 pixels up
-        opacity: 0, // Fade out the card
-        rotate: 10, // Rotate the card by  10 degrees
+        x: 200,
+        y: -100,
+        opacity: 0,
+        rotate: 10,
         transition: { duration: 0.5, ease: "easeOut" },
     };
 
-    console.log(benchCards)
-    const handleBenchCardClick = (_id) => {
-        setClickedCardId(_id);
-        setTimeout(() => {
-            const cardIndex = benchCards.indexOf(_id);
-
-            // If the card is found, update the state
-            if (cardIndex !== -1) {
-                // Create a copy of benchCards
-                const updatedBenchCards = [...benchCards];
-
-                // Remove the clicked card from the copy
-                updatedBenchCards.splice(cardIndex, 1);
-
-                // Update benchCards and discardPile in the state
-                setBenchCards(updatedBenchCards);
-                setDiscardPile([...discardPile, _id]);
-            }
-        }, 300);
+    const activeCardExitAnimation = {
+        x: 200, 
+        y: 0,
+        opacity: 0,
+        rotate: 10,
+        transition: { duration: 0.5, ease: "easeOut" },
     };
+
+    const handleBenchCardClick = (_id) => {
+        // Check if the active card slot is empty
+        if (!p1ActiveCard) {
+            setClickedCardId(_id);
+            setTimeout(() => {
+                const cardIndex = benchCards.indexOf(_id);
+
+                if (cardIndex !== -1) {
+                    const updatedBenchCards = [...benchCards];
+                    updatedBenchCards.splice(cardIndex, 1);
+                    setBenchCards(updatedBenchCards);
+                    setDiscardPile([...discardPile, _id]);
+                    // Move the clicked card to the active card slot
+                    setPlayCard(_id);
+                }
+            }, 300);
+        }
+    };
+
+    console.log(p1ActiveCard)
 
     const handleCardsPileClick = () => {
         if (p1HandCards.length < 50) {
@@ -69,9 +79,33 @@ const P1Board = () => {
 
 
                 {/* Active Card */}
-                <div className="mb-2 flex justify-center">
-                    <Card />
+                <div className='flex items-center justify-center'>
+                    <motion.div
+                        className="mb-2 flex items-center  justify-center relative border-2 border-white/50  border-dashed rounded-sm min-w-20 max-w-24 min-h-[6.5rem] "
+
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 1.4 }}
+
+
+                    >
+                        <AnimatePresence>
+                            {p1ActiveCard && (
+                                <motion.div
+                                    className=''
+                                    initial={{ x: `100%`, y: "50%" }}
+                                    transition={{ type: "spring", duration: 0.5 }}
+                                    animate={{ x: 0, y: 0 }}
+                                    exit={activeCardExitAnimation} 
+                                >
+                                    <Card _id={p1ActiveCard} />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+
+                    </motion.div>
                 </div>
+
 
                 {/* Bench Cards */}
                 <div className="">
@@ -82,6 +116,7 @@ const P1Board = () => {
                                 key={index}
                                 className="relative border-2 border-white/50  border-dashed rounded-sm min-w-20 min-h-[6.5rem] p-1"
                                 onClick={() => handleBenchCardClick(benchCards[index])}
+
                                 whileHover={{ scale: 1.2 }}
                                 whileTap={{ scale: 1.4 }}
                             >
@@ -112,7 +147,7 @@ const P1Board = () => {
                 </div>
                 {/* discard pile */}
                 <div>
-                    <div className="bg-blue-500 w-12 h-16 flex items-center justify-center rounded-md cursor-pointer">
+                    <div className="bg-blue-500 w-12 h-16 flex items-center justify-center rounded-md cursor-pointer" onClick={removeActiveCard}>
                         <span className="text-white text-sm">Discard</span>
                     </div>
                 </div>
