@@ -5,6 +5,7 @@ import { useBenchCards } from '../contexts/BenchCardContext';
 import useRandomPokemonCard from '../hooks/useRandomPokemon';
 import { useP1HandCardContext } from '../contexts/P1HandCardContext';
 import { useP1ActiveCardContext } from '../contexts/P1ActiveCardContext';
+import { useEffectRotationContext } from '../contexts/EffectsRoationsContext';
 
 
 const P1Board = () => {
@@ -16,6 +17,7 @@ const P1Board = () => {
     const [clickedCardId, setClickedCardId] = useState(null);
     const { p1HandCards } = useP1HandCardContext();
     const { p1ActiveCard, setPlayCard, removeActiveCard } = useP1ActiveCardContext();
+    const { effects, rotations, setEffects, setRotations } = useEffectRotationContext();
 
 
     const cardExitAnimation = {
@@ -27,7 +29,7 @@ const P1Board = () => {
     };
 
     const activeCardExitAnimation = {
-        x: 200, 
+        x: 200,
         y: 0,
         opacity: 0,
         rotate: 10,
@@ -60,6 +62,35 @@ const P1Board = () => {
             fetchRandomPokemonCard('p1');
         }
     };
+
+    const handleEffectsClick = (_id, isEffect, effectType) => {
+        if (isEffect) {
+            // Add effect to the context if it's not already there
+            const updatedEffects = { ...effects };
+            if (!updatedEffects[_id]) {
+              updatedEffects[_id] = new Set();
+            }
+      
+            updatedEffects[_id].add(effectType);
+      
+            setEffects(updatedEffects);
+          } else {
+            // Update rotation in the context
+            const validRotations = new Set(['paralized', 'sleep', 'confused']);
+            if (validRotations.has(effectType)) {
+              const updatedRotations = { ...rotations };
+              updatedRotations[_id] = effectType;
+      
+              setRotations(updatedRotations);
+            }
+          }
+        
+    };
+
+
+    //   console.log(`effect = ${effects}, roation: ${rotations}`);
+    console.log(effects);
+    console.log(rotations);
 
     return (
         <div className="flex flex-row items-center justify-center gap-2 ">
@@ -95,7 +126,7 @@ const P1Board = () => {
                                     initial={{ x: `100%`, y: "50%" }}
                                     transition={{ type: "spring", duration: 0.5 }}
                                     animate={{ x: 0, y: 0 }}
-                                    exit={activeCardExitAnimation} 
+                                    exit={activeCardExitAnimation}
                                 >
                                     <Card _id={p1ActiveCard} />
                                 </motion.div>
@@ -104,6 +135,16 @@ const P1Board = () => {
 
 
                     </motion.div>
+                    {p1ActiveCard && (
+                        <div className='flex flex-col text-sm ml-10'>
+                            <button onClick={() => handleEffectsClick(p1ActiveCard, true, 'burn')}>bur</button>
+                            <button onClick={() => handleEffectsClick(p1ActiveCard, true, 'poison')}>poi</button>
+                            <button onClick={() => handleEffectsClick(p1ActiveCard, false, 'confused')}>con</button>
+                            <button onClick={() => handleEffectsClick(p1ActiveCard, false, 'paralized')}>par</button>
+                            <button onClick={() => handleEffectsClick(p1ActiveCard, false, 'sleep')}>asl</button>
+                        </div>
+                    )}
+
                 </div>
 
 
